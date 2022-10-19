@@ -1,12 +1,12 @@
 const { waitFor, deleteLink, hashCode, postToAPI } = require("./helpers");
-
+const puppeteer = require("puppeteer-core");
 /**
  * @summary open a new tab
  * @param {puppeteer.Browser} browser
  * @param {string} link URL to a webpage
  * @returns {object} data
  */
-const nextTab = async (browser, link) => {
+const nextTabZulu = async (browser, link) => {
   try {
     console.log({ link });
     console.log(
@@ -20,16 +20,16 @@ const nextTab = async (browser, link) => {
     });
     await page.goto(link);
     /// wait for the  page to finish loading
-    await page.waitForSelector(".td-post-header");
+    await page.waitForSelector(".article-page h1 > span");
 
     //title
-    let titleEl = await page.$("h1.entry-title");
+    let titleEl = await page.$("h1 > span");
     let title = await page.evaluate((el) => el.innerText, titleEl);
 
     //body
 
     let bodyText = "";
-    let articleBody = await page.$$(".td-post-content p");
+    let articleBody = await page.$$(".articleBodyMore p");
     console.log({ numberOfParagraphs: articleBody.length });
 
     Array.from(articleBody).map(async (text) => {
@@ -50,7 +50,7 @@ const nextTab = async (browser, link) => {
     await postToAPI({
       key: hashCode(link),
       title,
-      lang: "xhosa",
+      lang: "zulu",
       source: link,
       body: bodyText.trim(),
     });
@@ -73,5 +73,5 @@ const nextTab = async (browser, link) => {
 };
 
 module.exports = {
-  nextTab,
+  nextTabZulu,
 };

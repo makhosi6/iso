@@ -9,7 +9,7 @@ const { nextTab } = require("../utils/page");
  * @param {string} link URL to a webpage
  * @returns {object} data
  */
-const task = async (browser, link) => {
+const taskZulu = async (browser, link) => {
   try {
     console.log("BROWSER HAS x TABS OPEN", (await browser.pages()).length);
 
@@ -20,11 +20,8 @@ const task = async (browser, link) => {
     });
     await page.goto(link);
     /// wait for the laod more btn
-    await page.waitForSelector(".td_ajax_load_more");
-    /**
-     * main content sections class names
-     */
-    let mainSections = ["td-category-grid", "td-main-content-wrap"];
+    await page.waitForSelector(".article-list .sections article");
+
     /// count pages
     let num = 0;
 
@@ -38,7 +35,7 @@ const task = async (browser, link) => {
 
         /// click to page
         let loadMoreBtn = await page.$(
-          ".td-load-more-wrap.td-load-more-infinite-wrap"
+          "button#viewMoreButton"
         );
         await page.evaluate((el) => el.click(), loadMoreBtn);
       } catch (error) {}
@@ -56,12 +53,9 @@ const task = async (browser, link) => {
       hey: "There",
     });
 
-    ////OR rest of the code here
-    mainSections.forEach(async (element) => {
-      try {
         console.log("start here");
         ///
-        let links = await page.$$(`.${element} .td-module-thumb > a`);
+        let links = await page.$$(`.article-list .sections article > a`);
 
         Array.from(links).map(async (lnk) => {
           try {
@@ -72,7 +66,7 @@ const task = async (browser, link) => {
 
             /// Scap content from the href | save href for later use
             if (!href.toLocaleLowerCase().includes("english"))
-              await saveLink(href, 'xhosa');
+              await saveLink(href, "zulu");
 
             // console.log({
             //     data,
@@ -86,18 +80,13 @@ const task = async (browser, link) => {
           }
         });
 
-        ///
-      } catch (error) {
-        console.log({
-          error,
-        });
-      }
-    });
+ 
   } catch (error) {
     console.log({
       error,
     });
-  } finally
+  }
+  finally
   {
     page.close()
   }
@@ -105,5 +94,5 @@ const task = async (browser, link) => {
 };
 
 module.exports = {
-  task,
+  taskZulu,
 };
