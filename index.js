@@ -20,7 +20,7 @@ const { nextTabZulu } = require("./src/utils/page_zulu");
   allPagesZulu.map((url) => taskZulu(browser, url));
 
   /// extract content from saved links, Every 15mins
-  cron.schedule("*/2 * * * *", async () => {
+  cron.schedule("*/15 * * * *", async () => {
     /// get all links but only use the first
 
     let links = await getLinks();

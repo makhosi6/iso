@@ -46,16 +46,21 @@ const nextTabZulu = async (browser, link) => {
       body: bodyText.trim(),
     });
 
-    /// store on a central DB
-    await postToAPI({
+    /**
+     *  store on a central DB
+     * @type Response
+     */
+     let response =  await postToAPI({
       key: hashCode(link),
       title,
-      lang: "zulu",
+      lang: "xhosa",
       source: link,
       body: bodyText.trim(),
     });
+
+    console.log(`response.status ${response.status}  ${response.statusCode} `);
     /// delete from a list of TODOs
-    await deleteLink(hashCode(link));
+  if(response.statusCode > 199 && response.statusCode < 299)  await deleteLink(hashCode(link));
     ///close the page
     await page.close();
     return {

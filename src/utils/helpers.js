@@ -56,7 +56,7 @@ async function saveLink(link, lang) {
  * @param {Object} data
  */
 async function postToAPI(data = {}) {
-
+var resp;
 
 console.log({data});
 
@@ -74,6 +74,7 @@ console.log({data});
     body: JSON.stringify(data),
   };
   request(options, function (error, response) {
+    resp = response;
     if (error) throw new Error(error);
     console.log(
       "\x1b[45m%s\x1b[0m",
@@ -83,6 +84,10 @@ console.log({data});
       response.statusCode
     );
   });
+
+
+  await waitFor(1000);
+  return resp;
 }
 
 /**
