@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer-core");
 const { task } = require("./src/tasks/recursive");
 const { taskWeekly } = require("./src/tasks/weekly");
-const { allPages, getLinks, a, allPagesZulu } = require("./src/utils/helpers");
+const { allPages, getLinks, a, allPagesZulu, waitFor, getBrowser } = require("./src/utils/helpers");
 const { nextTab } = require("./src/utils/page");
 const cron = require("node-cron");
 const { taskWeeklyZulu } = require("./src/tasks_zulu/weekly");
@@ -9,13 +9,19 @@ const { taskZulu } = require("./src/tasks_zulu/recursive");
 const { nextTabZulu } = require("./src/utils/page_zulu");
 
 (async () => {
+/**
+ * wait for the browser to boot up
+ */
+  await waitFor(120000)
   /**
    * @type puppeteer.Browser
    */
-  // const browser = await puppeteer.connect({browserWSEndpoint: "ws://192.168.0.134:41777/devtools/browser/156be0ed-865a-406d-8158-206256b98447"});
-  const browser = await puppeteer.launch({
-    executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
-  });
+let currentBr = getBrowser()
+console.log({currentBr});
+  const browser = await puppeteer.connect({browserWSEndpoint: currentBr.index});
+  // const browser = await puppeteer.launch({
+  //   executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  // });
   allPages.map((url) => task(browser, url));
   allPagesZulu.map((url) => taskZulu(browser, url));
 

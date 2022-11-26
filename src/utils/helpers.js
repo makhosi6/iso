@@ -159,7 +159,25 @@ function hashCode(s) {
 
   return h.toString();
 }
+
+/**
+ *
+ * @param {string} id
+ * @returns {Object}
+ */
+ async function getBrowser(id = 'browser') {
+  ///
+  const response = await fetch(`http://192.168.0.134:3003/memory/${id}`);
+
+  ///
+  const data = await response.json();
+
+  return data;
+}
+
+
 module.exports = {
+  getBrowser,
   hashCode,
   allPages,
   allPagesZulu,
