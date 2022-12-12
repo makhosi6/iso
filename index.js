@@ -16,7 +16,7 @@ const { nextTabZulu } = require("./src/utils/page_zulu");
   /**
    * @type puppeteer.Browser
    */
-let currentBr = getBrowser()
+let currentBr = await getBrowser()
 console.log({currentBr});
   const browser = await puppeteer.connect({browserWSEndpoint: currentBr.index});
   // const browser = await puppeteer.launch({
