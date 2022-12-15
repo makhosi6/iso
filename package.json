@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "pm2 start index.js --time",
-    "api":"pm2 start memory.js --time"
+    "dev": "pm2 start index.js --time --name iso-scapper",
+    "api":"pm2 start memory.js --time --name iso-memory"
   },
   "keywords": [],
   "author": "",

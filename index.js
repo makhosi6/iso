@@ -24,6 +24,8 @@ console.log({currentBr});
     // headless: true
   // });
   allPages.map((url) => task(browser, url));
+  /// 2 mins buffer in between
+  await waitFor(120000)
   allPagesZulu.map((url) => taskZulu(browser, url));
 
   /// extract content from saved links, Every 15mins
@@ -47,6 +49,8 @@ console.log({currentBr});
   /// get links every week
   cron.schedule("0 15 * * 2", async () => {
     allPages.map((url) => taskWeekly(browser, url));
+      /// 2 mins buffer in between
+  await waitFor(120000)
     allPagesZulu.map((url) => taskWeeklyZulu(browser, url));
   });
 })();
