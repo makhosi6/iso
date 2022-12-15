@@ -68,6 +68,7 @@ const taskWeekly = async (browser, link) => {
     });
   } finally
   {
+    await waitFor(120000)
     page.close()
   }
   ////

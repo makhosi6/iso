@@ -53,12 +53,12 @@ const nextTabZulu = async (browser, link) => {
      let response =  await postToAPI({
       key: hashCode(link),
       title,
-      lang: "xhosa",
+      lang: "zulu",
       source: link,
       body: bodyText.trim(),
     });
 
-    console.log(`response.status ${response.status}  ${response.statusCode} `);
+    console.log(`response.status ${response?.status}  ${response?.statusCode} `);
     /// delete from a list of TODOs
   if(response.statusCode > 199 && response.statusCode < 299)  await deleteLink(hashCode(link));
     ///close the page

@@ -28,7 +28,7 @@ async function waitFor(millisecondsCount) {
 async function saveLink(link, lang) {
   let options = {
     method: "POST",
-    url: `http://localhost:3004/records`,
+    url: `http://192.168.0.134:3004/records`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -40,13 +40,13 @@ async function saveLink(link, lang) {
     }),
   };
   request(options, function (error, response) {
-    if (error) throw new Error(error);
+    if (error) console.log(error);
     console.log(
       "\x1b[45m%s\x1b[0m",
       "Save Link ==> ",
       link,
       " : ",
-      response.statusCode
+      response?.statusCode
     );
   });
 }
@@ -56,35 +56,41 @@ async function saveLink(link, lang) {
  * @param {Object} data
  */
 async function postToAPI(data = {}) {
-var resp;
+  var resp;
 
-console.log({data});
+  console.log({ data });
 
-  if (!(data instanceof Object))
-    throw "Error: param 'data' should be an object.";
-  if (JSON.stringify(data) == "{}") throw "Error: param 'data' cant'be empty.";
+  if (!(data instanceof Object)) {
+    console.log("Error: param 'data' should be an object.");
+    return;
+  }
+  if (JSON.stringify(data) == "{}") {
+    console.log("Error: param 'data' cant'be empty.");
+    return;
+  }
   let options = {
     method: "POST",
     url: `http://192.168.0.134/api/v1/articles`,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.TOKEN || "r2vNuzyNmwVtLM47ewHz44LJ5TY7MGSZdfW8kiPM"}`,
+      Authorization: `Bearer ${
+        process.env.TOKEN || "El11xW0ztdJNoeKpgxWjIv8S51tfZjl42BGAjZpi" //locally
+      }`,
     },
     ///  "id": "a", "task": "a","index": 90000, "process_id":"angle"
     body: JSON.stringify(data),
   };
   request(options, function (error, response) {
     resp = response;
-    if (error) throw new Error(error);
+    if (error) console.log(error);
     console.log(
       "\x1b[45m%s\x1b[0m",
       "Save Article ==> ",
       data.title,
       " : ",
-      response.statusCode
+      response?.statusCode
     );
   });
-
 
   await waitFor(1000);
   return resp;
@@ -96,13 +102,13 @@ console.log({data});
 async function deleteLink(id) {
   let options = {
     method: "DELETE",
-    url: `http://localhost:3004/records/${encodeURIComponent(id)}`,
+    url: `http://192.168.0.134:3004/records/${encodeURIComponent(id)}`,
     headers: {
       "Content-Type": "application/json",
     },
   };
   request(options, function (error, response) {
-    if (error) throw new Error(error);
+    if (error)console.log(error);
     console.log(
       "\x1b[45m%s\x1b[0m",
       "DELETE Link ==> ",
@@ -118,7 +124,7 @@ async function deleteLink(id) {
  */
 async function getLinks() {
   ///
-  const response = await fetch(`http://localhost:3004/records`);
+  const response = await fetch(`http://192.168.0.134:3004/records`);
 
   ///
   const data = await response.json();
@@ -165,18 +171,17 @@ function hashCode(s) {
  * @param {string} id
  * @returns {Object}
  */
- async function getBrowser(id = 'browser') {
+async function getBrowser(id = "browser") {
   ///
   const response = await fetch(`http://192.168.0.134:3003/memory/${id}`);
 
   ///
   const data = await response.json();
 
-  console.log({data});
+  console.log({ data });
 
   return data;
 }
-
 
 module.exports = {
   getBrowser,
