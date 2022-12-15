@@ -21,6 +21,7 @@ console.log({currentBr});
   const browser = await puppeteer.connect({browserWSEndpoint: currentBr.index});
   // const browser = await puppeteer.launch({
   //   executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    // headless: true
   // });
   allPages.map((url) => task(browser, url));
   allPagesZulu.map((url) => taskZulu(browser, url));
