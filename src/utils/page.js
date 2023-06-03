@@ -57,9 +57,10 @@ const nextTab = async (browser, link) => {
       source: link,
       body: bodyText.trim(),
     });
-    console.log(`response.status ${response.status}  ${response.statusCode} `);
+    console.log(`after posting to API response.status ${response.status}  ${response.statusCode} `);
     /// delete from a list of TODOs
-  if(response.statusCode > 199 && response.statusCode < 299)  await deleteLink(hashCode(link));
+  //if(response.statusCode > 199 && response.statusCode < 299)
+    await deleteLink(hashCode(link));
     ///close the page
     await page.close();
     return {
